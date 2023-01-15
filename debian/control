@@ -1,0 +1,19 @@
+Source: voicecall
+Section: x11
+Priority: extra
+Maintainer: Merlijn Wajer <merlijn@wizzup.org>
+Build-Depends: debhelper (>= 10),
+    qtbase5-dev,
+    cmake,
+    libtelepathy-qt5-dev,
+Homepage: https://github.com/maemo-leste-upstream-forks/voicecall
+XSBC-Bugtracker: https://github.com/maemo-leste-upstream-forks/voicecall/issues
+Vcs-Git: https://github.com/maemo-leste-upstream-forks/voicecall
+Vcs-Browser: https://github.com/maemo-leste-upstream-forks/voicecall
+
+
+Package: voicecall-qt5
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+    libtelepathy-qt5-0,
+Description: Voicecall manager from Sailfish OS
