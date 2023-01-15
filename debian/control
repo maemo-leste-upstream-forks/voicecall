@@ -6,6 +6,9 @@ Build-Depends: debhelper (>= 10),
     qtbase5-dev,
     cmake,
     libtelepathy-qt5-dev,
+    qtmultimedia5-dev,
+    qtdeclarative5-dev,
+    qtdeclarative5-dev-tools,
 Homepage: https://github.com/maemo-leste-upstream-forks/voicecall
 XSBC-Bugtracker: https://github.com/maemo-leste-upstream-forks/voicecall/issues
 Vcs-Git: https://github.com/maemo-leste-upstream-forks/voicecall
@@ -16,4 +19,5 @@ Package: voicecall-qt5
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
     libtelepathy-qt5-0,
+    libqt5multimedia5,
 Description: Voicecall manager from Sailfish OS
