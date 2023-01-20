@@ -1,3 +1,15 @@
+voicecall (0.8.0.2) unstable; urgency=medium
+
+  * Add qtvoicecall library
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Fri, 20 Jan 2023 16:09:29 +0100
+
+voicecall (0.8.0.1) unstable; urgency=medium
+
+  * Fix up fighting with quilt for now
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Sun, 15 Jan 2023 16:15:54 +0100
+
 voicecall (0.8.0) unstable; urgency=medium
 
   * Initial Maemo Leste build
