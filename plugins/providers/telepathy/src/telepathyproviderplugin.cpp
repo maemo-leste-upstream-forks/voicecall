@@ -77,7 +77,7 @@ const Tp::ChannelClassSpecList TelepathyProviderPluginPrivate::CHANNEL_SPECS =
          << Tp::ChannelClassSpec::streamedMediaCall()
          << Tp::ChannelClassSpec::unnamedStreamedMediaCall()
          << Tp::ChannelClassSpec::streamedMediaAudioCall()
-         << Tp::ChannelClassSpec::unnamedStreamedMediaCall()
+         << Tp::ChannelClassSpec::unnamedStreamedMediaAudioCall()
          << Tp::ChannelClassSpec::incomingStreamTube()
          << Tp::ChannelClassSpec::incomingRoomStreamTube());
 
