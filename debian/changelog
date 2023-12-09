@@ -1,3 +1,10 @@
+voicecall (0.8.0.3) unstable; urgency=medium
+
+  * Set privacy bit for tp-ring
+  * Allow using jabber as protocol
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Sat, 09 Dec 2023 21:38:11 +0100
+
 voicecall (0.8.0.2) unstable; urgency=medium
 
   * Add qtvoicecall library
