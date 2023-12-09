@@ -131,7 +131,7 @@ bool TelepathyProvider::dial(const QString &msisdn)
         return false;
     }
 
-    if (d->account->protocolName() == "sip") {
+    if (d->account->protocolName() == "sip" || d->account->protocolName() == "jabber") {
         d->tpChannelRequest = d->account->ensureAudioCall(msisdn, QString(), QDateTime::currentDateTime(),
                                                           TP_QT_IFACE_CLIENT + ".voicecall");
     } else if (d->account->protocolName() == "tel") {

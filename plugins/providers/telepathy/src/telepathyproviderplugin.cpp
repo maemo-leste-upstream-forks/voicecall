@@ -290,7 +290,7 @@ void TelepathyProviderPlugin::onNewAccount(Tp::AccountPtr account)
     DEBUG_T("\tProtocol Name: %s", qPrintable(account->protocolName()));
     DEBUG_T("\tService Name: %s", qPrintable(account->serviceName()));
 
-    if (account->protocolName() == "tel" || account->protocolName() == "sip") {
+    if (account->protocolName() == "tel" || account->protocolName() == "sip" || account->protocolName() == "jabber") {
         this->registerAccountProvider(account);
 
         QObject::connect(account.data(), SIGNAL(invalidated(Tp::DBusProxy*,QString,QString)),
