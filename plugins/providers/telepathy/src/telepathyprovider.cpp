@@ -224,22 +224,6 @@ void TelepathyProvider::onAccountBecomeReady(Tp::PendingOperation *op)
         return;
     }
 
-    /* Test for ring */
-    if (d->shouldForceReconnect()) {
-        // If telepathy-ring, set anonymity properties here
-        auto conn = d->account->connection();
-        auto anon = new Tp::Client::ConnectionInterfaceAnonymityInterface(Tp::Client::ConnectionInterface(conn->busName(), conn->objectPath()));
-        qDebug("Setting anonymity modes!");
-        auto pending = anon->setPropertyAnonymityModes(2);
-        QObject::connect(pending,
-		     SIGNAL(finished(Tp::PendingOperation*)),
-		     SLOT(onPendingRequestFinished(Tp::PendingOperation*)));
-        auto pending2 = anon->setPropertyAnonymityMandatory(false);
-        QObject::connect(pending2,
-		     SIGNAL(finished(Tp::PendingOperation*)),
-		     SLOT(onPendingRequestFinished(Tp::PendingOperation*)));
-    }
-
     DEBUG_T("Account %s became ready.", qPrintable(d->account.data()->uniqueIdentifier()));
 
     QObject::connect(d->account.data(), SIGNAL(stateChanged(bool)), SLOT(onAccountAvailabilityChanged()));
@@ -255,6 +239,22 @@ void TelepathyProvider::onAccountAvailabilityChanged()
 
     if (d->account.data()->isEnabled() && d->account.data()->isOnline()
             && d->account.data()->connectionStatus() == Tp::ConnectionStatusConnected) {
+        /* Test for ring */
+        if (d->shouldForceReconnect()) {
+            // If telepathy-ring, set anonymity properties here
+            auto conn = d->account->connection();
+            auto anon = new Tp::Client::ConnectionInterfaceAnonymityInterface(Tp::Client::ConnectionInterface(conn->busName(), conn->objectPath()));
+            qDebug("Setting anonymity modes!");
+            auto pending = anon->setPropertyAnonymityModes(2);
+            QObject::connect(pending,
+                 SIGNAL(finished(Tp::PendingOperation*)),
+                 SLOT(onPendingRequestFinished(Tp::PendingOperation*)));
+            auto pending2 = anon->setPropertyAnonymityMandatory(false);
+            QObject::connect(pending2,
+                 SIGNAL(finished(Tp::PendingOperation*)),
+                 SLOT(onPendingRequestFinished(Tp::PendingOperation*)));
+        }
+
         d->manager->appendProvider(this);
     } else {
         d->manager->removeProvider(this);
