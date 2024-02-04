@@ -5,3 +5,7 @@
 
 override_dh_auto_configure:
 	qmake PREFIX=/usr voicecall.pro CONFIG+=enable-telepathy
+
+override_dh_install:
+	dh_install
+	dh_installxsession -u 'post 60'

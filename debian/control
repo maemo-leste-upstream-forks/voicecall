@@ -9,6 +9,7 @@ Build-Depends: debhelper (>= 10),
     qtmultimedia5-dev,
     qtdeclarative5-dev,
     qtdeclarative5-dev-tools,
+    maemo-system-services-dev
 Homepage: https://github.com/maemo-leste-upstream-forks/voicecall
 XSBC-Bugtracker: https://github.com/maemo-leste-upstream-forks/voicecall/issues
 Vcs-Git: https://github.com/maemo-leste-upstream-forks/voicecall
