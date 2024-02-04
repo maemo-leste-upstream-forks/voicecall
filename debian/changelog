@@ -1,3 +1,9 @@
+voicecall (0.8.0.6) unstable; urgency=medium
+
+  * Add xsession script
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Sun, 04 Feb 2024 15:30:32 +0100
+
 voicecall (0.8.0.5) unstable; urgency=medium
 
   * Disable building the mce module for now
