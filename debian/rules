@@ -8,4 +8,4 @@ override_dh_auto_configure:
 
 override_dh_install:
 	dh_install
-	dh_installxsession --init-script='voicecallmanager.xsession' -u 'post 60'
+	dh_installxsession --init-script='voicecallmanager' -u 'post 60'
