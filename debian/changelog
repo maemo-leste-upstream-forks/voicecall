@@ -1,3 +1,9 @@
+voicecall (0.8.0.7) unstable; urgency=medium
+
+  * Actually add xsession script
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Fri, 08 Mar 2024 01:27:23 +0100
+
 voicecall (0.8.0.6) unstable; urgency=medium
 
   * Add xsession script
