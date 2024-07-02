@@ -11,6 +11,6 @@ oneshot.files = oneshot/phone-move-recordings-dir
 oneshot.path  = $$[QT_INSTALL_PREFIX]/lib/oneshot.d
 
 telepathy.files = telepathy/voicecall.client
-telepathy.path = $$[QT_INSTALL_PREFIX]/share/telepathy/client
+telepathy.path = $$[QT_INSTALL_PREFIX]/share/telepathy/clients
 
 INSTALLS += oneshot telepathy
