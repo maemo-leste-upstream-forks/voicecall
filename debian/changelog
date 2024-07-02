@@ -1,3 +1,9 @@
+voicecall (0.8.0.10) unstable; urgency=medium
+
+  * Add voicecall.client in the right place
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Tue, 02 Jul 2024 20:03:44 +0200
+
 voicecall (0.8.0.9) unstable; urgency=medium
 
   * Add voicecall.client file to make mission-control-5 happy
