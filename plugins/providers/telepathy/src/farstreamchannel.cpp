@@ -24,7 +24,8 @@
 
 //#define AUDIO_SOURCE_ELEMENT "autoaudiosrc"
 //#define AUDIO_SOURCE_ELEMENT "audiotestsrc"
-#define AUDIO_SOURCE_ELEMENT "pulsesrc"
+#define AUDIO_SOURCE_ELEMENT "alsasrc"
+##define AUDIO_SOURCE_ELEMENT "pulsesrc"
 
 //#define AUDIO_SINK_ELEMENT "autoaudiosink"
 //#define AUDIO_SINK_ELEMENT "alsasink"
