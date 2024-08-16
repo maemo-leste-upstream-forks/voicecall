@@ -1,4 +1,4 @@
-voicecall (0.8.0.11) unstable; urgency=medium
+voicecall (0.8.0.12) unstable; urgency=medium
 
   * Hopefully fix call audio for sip calls
 
