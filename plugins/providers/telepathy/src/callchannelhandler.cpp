@@ -366,6 +366,7 @@ void CallChannelHandler::onCallChannelChannelInvalidated(Tp::DBusProxy *, const 
 void CallChannelHandler::onCallChannelCallStateChanged(Tp::CallState state)
 {
     TRACE
+    Q_D(CallChannelHandler);
 
     switch(state)
     {
@@ -378,11 +379,16 @@ void CallChannelHandler::onCallChannelCallStateChanged(Tp::CallState state)
         break;
 
     case Tp::CallStateInitialising:
-        setStatus(STATUS_DIALING);
+        if (d->channel->isRequested()) {
+            setStatus(STATUS_DIALING);
+        } else {
+            setStatus(STATUS_INCOMING);
+        }
+
         break;
 
     case Tp::CallStateInitialised:
-        setStatus(STATUS_ALERTING);
+        setStatus(STATUS_INCOMING);
         break;
 
     case Tp::CallStateAccepted:
