@@ -83,7 +83,11 @@ const Tp::ChannelClassSpecList TelepathyProviderPluginPrivate::CHANNEL_SPECS =
 
 TelepathyProviderPlugin::TelepathyProviderPlugin(QObject *parent)
     : AbstractVoiceCallManagerPlugin(parent),
-      Tp::AbstractClientHandler(TelepathyProviderPluginPrivate::CHANNEL_SPECS),
+      Tp::AbstractClientHandler(TelepathyProviderPluginPrivate::CHANNEL_SPECS,
+                                QStringList({
+                                            TP_QT_IFACE_CHANNEL_TYPE_CALL + "/ice",
+                                            TP_QT_IFACE_CHANNEL_INTERFACE_MEDIA_SIGNALLING + "/ice-udp"
+                                            })),
       d_ptr(new TelepathyProviderPluginPrivate(this))
 {
     TRACE
