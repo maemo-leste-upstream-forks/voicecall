@@ -1,3 +1,10 @@
+voicecall (0.8.0.13) unstable; urgency=medium
+
+  * telepathyproviderplugin: allow ICE transport (XMPP audio)
+  * plugins/telepathy/callchannelhandler: Fix call state mapping
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Thu, 29 Aug 2024 08:03:43 +0300
+
 voicecall (0.8.0.12) unstable; urgency=medium
 
   * Hopefully fix call audio for sip calls
