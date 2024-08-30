@@ -24,8 +24,7 @@
 
 //#define AUDIO_SOURCE_ELEMENT "autoaudiosrc"
 //#define AUDIO_SOURCE_ELEMENT "audiotestsrc"
-#define AUDIO_SOURCE_ELEMENT "alsasrc"
-//#define AUDIO_SOURCE_ELEMENT "pulsesrc"
+#define AUDIO_SOURCE_ELEMENT "pulsesrc"
 
 //#define AUDIO_SINK_ELEMENT "autoaudiosink"
 //#define AUDIO_SINK_ELEMENT "alsasink"
@@ -288,10 +287,11 @@ void FarstreamChannel::initAudioInput()
     }
 
     if (!strcmp(AUDIO_SOURCE_ELEMENT, "pulsesrc")) {
-        g_object_set(source, "buffer-time", (gint64)20000, NULL);
-        g_object_set(source, "latency-time", (gint64)10000, NULL);
         setPhoneMediaRole(source);
     }
+
+    /* run in a separate thread */
+    source = addElementToBin(mGstAudioInput, source, "queue");
 
     mGstAudioInputVolume = addElementToBin(mGstAudioInput, source, "volume");
     if (!mGstAudioInputVolume) {
@@ -814,6 +814,9 @@ void FarstreamChannel::onFsConferenceAdded(TfChannel *tfc, FsConference * conf, 
     GKeyFile *keyfile = fs_utils_get_default_element_properties(GST_ELEMENT(conf));
     if (keyfile != NULL) {
         qDebug() << "Loaded default codecs for " << GST_ELEMENT_NAME(conf);
+        g_key_file_set_integer(keyfile, "pulsesrc", "buffer-time", 40000);
+        g_key_file_set_integer(keyfile, "pulsesrc", "latency-time", 10000);
+
         FsElementAddedNotifier *notifier = fs_element_added_notifier_new();
         fs_element_added_notifier_set_properties_from_keyfile(notifier, keyfile);
         fs_element_added_notifier_add (notifier, GST_BIN (self->mGstPipeline));
@@ -1104,6 +1107,8 @@ bool FarstreamChannel::onStartSending(TfContent *content, FarstreamChannel *self
         self->setError("GStreamer input state could not be synced with parent");
         return false;
     }
+
+    gst_element_get_state (sourceElement, NULL, NULL, GST_CLOCK_TIME_NONE);
 
     //GST_DEBUG_BIN_TO_DOT_FILE_WITH_TS(GST_BIN(self->mGstPipeline), GST_DEBUG_GRAPH_SHOW_ALL, "impipeline1");
 
