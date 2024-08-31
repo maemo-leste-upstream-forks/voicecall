@@ -814,8 +814,10 @@ void FarstreamChannel::onFsConferenceAdded(TfChannel *tfc, FsConference * conf, 
     GKeyFile *keyfile = fs_utils_get_default_element_properties(GST_ELEMENT(conf));
     if (keyfile != NULL) {
         qDebug() << "Loaded default codecs for " << GST_ELEMENT_NAME(conf);
-        g_key_file_set_integer(keyfile, "pulsesrc", "buffer-time", 40000);
-        g_key_file_set_integer(keyfile, "pulsesrc", "latency-time", 10000);
+        /* That is the default */
+        g_key_file_set_integer(keyfile, "pulsesrc", "buffer-time", 200000);
+        /* 100ms set in default-element-properties is a bit too much */
+        g_key_file_set_integer(keyfile, "rtpbin", "latency", 25);
 
         FsElementAddedNotifier *notifier = fs_element_added_notifier_new();
         fs_element_added_notifier_set_properties_from_keyfile(notifier, keyfile);
