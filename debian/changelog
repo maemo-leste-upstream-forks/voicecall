@@ -1,3 +1,9 @@
+voicecall (0.8.0.15) unstable; urgency=medium
+
+  * plugins/telepathy/callchannelhandler: Make outgoing calls work
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Fri, 30 Aug 2024 08:07:12 +0300
+
 voicecall (0.8.0.14) unstable; urgency=medium
 
   * farstreamchannel: revert to using pulsesrc
