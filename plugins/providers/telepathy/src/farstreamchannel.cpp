@@ -50,6 +50,25 @@ public:
 #define LIFETIME_TRACER() LifetimeTracer lifetime_tracer(__FILE__,__LINE__,__PRETTY_FUNCTION__)
 #define TRACE() qDebug() << __FILE__ << ":" << __LINE__ << ": trace";
 
+class GstStateLock
+{
+public:
+  GstStateLock(gpointer elem) :
+    m_elem(GST_ELEMENT_CAST(elem))
+  {
+    if (elem)
+      GST_STATE_LOCK(GST_STATE_GET_LOCK(elem));
+  }
+  ~GstStateLock()
+  {
+    if (m_elem)
+      GST_STATE_UNLOCK(GST_STATE_GET_LOCK(m_elem));
+  }
+
+private:
+  GstElement *m_elem;
+};
+
 FarstreamChannel::FarstreamChannel(TfChannel *tfChannel, QObject *parent) :
     QObject(parent),
     mTfChannel(tfChannel),
@@ -885,6 +904,7 @@ void FarstreamChannel::addBin(GstElement *bin)
     if (!bin)
         return;
 
+    GstStateLock lock(mGstPipeline);
     gboolean res = gst_bin_add(GST_BIN(mGstPipeline), bin);
     if (!res) {
         setError("GStreamer could not add bin to the pipeline");
@@ -976,7 +996,10 @@ void FarstreamChannel::removeBin(GstElement *bin, bool isSink)
     if (!bin)
         return;
 
-    gst_element_set_locked_state(bin, TRUE);
+    {
+      GstStateLock lock(gst_element_get_parent(bin));
+      gst_element_set_locked_state(bin, TRUE);
+    }
 
     if (gst_element_set_state(bin, GST_STATE_NULL) == GST_STATE_CHANGE_FAILURE) {
         setError("Failed to stop bin");
@@ -1103,14 +1126,15 @@ bool FarstreamChannel::onStartSending(TfContent *content, FarstreamChannel *self
         return false;
     }
 
-    gst_element_set_locked_state(sourceElement, FALSE);
+    {
+      GstStateLock lock(gst_element_get_parent(sourceElement));
+      gst_element_set_locked_state(sourceElement, FALSE);
+    }
 
     if (!gst_element_sync_state_with_parent(sourceElement)) {
         self->setError("GStreamer input state could not be synced with parent");
         return false;
     }
-
-    gst_element_get_state (sourceElement, NULL, NULL, GST_CLOCK_TIME_NONE);
 
     //GST_DEBUG_BIN_TO_DOT_FILE_WITH_TS(GST_BIN(self->mGstPipeline), GST_DEBUG_GRAPH_SHOW_ALL, "impipeline1");
 
@@ -1151,7 +1175,10 @@ void FarstreamChannel::onStopSending(TfContent *content, FarstreamChannel *self)
         return;
     }
 
-    gst_element_set_locked_state(sourceElement, TRUE);
+    {
+      GstStateLock lock(gst_element_get_parent(sourceElement));
+      gst_element_set_locked_state(sourceElement, TRUE);
+    }
 
     TRACE();
     if (gst_element_set_state(sourceElement, GST_STATE_NULL) == GST_STATE_CHANGE_FAILURE) {
@@ -1217,6 +1244,7 @@ void FarstreamChannel::onSrcPadAddedContent(TfContent *content, uint handle, FsS
     /* We can get src-pad-added multiple times without being aware the stream
        might have stopped in the meantime */
     if (gst_pad_is_linked(pad)) {
+        GstStateLock lock(gst_element_get_parent(bin));
         gst_element_set_locked_state(bin, TRUE);
         gst_element_set_state (bin, GST_STATE_READY);
         gst_pad_unlink (gst_pad_get_peer(pad), pad);
@@ -1229,7 +1257,10 @@ void FarstreamChannel::onSrcPadAddedContent(TfContent *content, uint handle, FsS
         return;
     }
 
-    gst_element_set_locked_state (bin, FALSE);
+    {
+        GstStateLock lock(gst_element_get_parent(bin));
+        gst_element_set_locked_state (bin, FALSE);
+    }
     if (gst_element_set_state (bin, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
         self->setError("GStreamer could not set output bin state to PLAYING");
         return;
